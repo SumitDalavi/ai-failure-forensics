@@ -4,7 +4,7 @@
   "main": "src/index.ts",
   "scripts": {
     "start": "ts-node src/index.ts",
-    "test": "echo \"PASS: Validated by test harness\""
+    "test": "jest"
   },
   "dependencies": {
     "dotenv": "^17.4.2",
