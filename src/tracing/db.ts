@@ -1,27 +1,23 @@
-import initSqlJs from 'sql.js';
-import fs from 'fs';
-import path from 'path';
+import { Pool } from 'pg';
 import { Trace, EvalCase } from '../types';
 
-const DB_FILE = path.join(process.cwd(), 'forensics.sqlite');
-
-let dbInstance: any = null;
+let dbInstance: Pool | null = null;
 
 export async function getDb() {
   if (dbInstance) return dbInstance;
 
-  const SQL = await initSqlJs();
-  if (fs.existsSync(DB_FILE)) {
-    const filebuffer = fs.readFileSync(DB_FILE);
-    dbInstance = new SQL.Database(filebuffer);
-  } else {
-    dbInstance = new SQL.Database();
-  }
+  dbInstance = new Pool({
+    host: process.env.DB_HOST || 'localhost',
+    user: process.env.DB_USER || 'postgres',
+    password: process.env.DB_PASSWORD || 'postgres',
+    database: process.env.DB_NAME || 'forensics',
+    port: parseInt(process.env.DB_PORT || '5432'),
+  });
 
-  dbInstance.run(`
+  await dbInstance.query(`
     CREATE TABLE IF NOT EXISTS traces (
       id TEXT PRIMARY KEY,
-      timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+      timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
       status TEXT,
       final_output TEXT,
       spans_json TEXT
@@ -34,75 +30,65 @@ export async function getDb() {
       bad_output TEXT,
       human_corrected_output TEXT,
       failure_category TEXT,
-      timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+      timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
   `);
 
   return dbInstance;
 }
 
-export async function saveDb() {
-  if (!dbInstance) return;
-  const data = dbInstance.export();
-  const buffer = Buffer.from(data);
-  fs.writeFileSync(DB_FILE, buffer);
-}
-
 export async function storeTrace(trace: Trace) {
   const db = await getDb();
-  const stmt = db.prepare(`INSERT INTO traces (id, timestamp, status, final_output, spans_json) VALUES (?, ?, ?, ?, ?)`);
-  stmt.run([
+  await db.query(`INSERT INTO traces (id, timestamp, status, final_output, spans_json) VALUES ($1, $2, $3, $4, $5)`,
+  [
     trace.id,
-    trace.timestamp,
+    new Date(trace.timestamp).toISOString(),
     trace.status,
     trace.final_output || '',
     JSON.stringify(trace.spans)
   ]);
-  stmt.free();
-  await saveDb();
 }
 
 export async function getTraces(): Promise<Trace[]> {
   const db = await getDb();
-  const res = db.exec(`SELECT id, timestamp, status, final_output, spans_json FROM traces ORDER BY timestamp DESC LIMIT 50`);
-  if (res.length === 0) return [];
+  const res = await db.query(`SELECT id, timestamp, status, final_output, spans_json FROM traces ORDER BY timestamp DESC LIMIT 50`);
 
-  return res[0].values.map((row: any) => ({
-    id: row[0],
-    timestamp: row[1],
-    status: row[2],
-    final_output: row[3],
-    spans: JSON.parse(row[4])
+  return res.rows.map((row: any) => ({
+    id: row.id,
+    timestamp: row.timestamp.toISOString(),
+    status: row.status,
+    final_output: row.final_output,
+    spans: JSON.parse(row.spans_json)
   }));
 }
 
 export async function getTrace(id: string): Promise<Trace | null> {
   const db = await getDb();
-  const res = db.exec(`SELECT id, timestamp, status, final_output, spans_json FROM traces WHERE id = '${id}'`);
-  if (res.length === 0) return null;
-  const row = res[0].values[0];
+  const res = await db.query(`SELECT id, timestamp, status, final_output, spans_json FROM traces WHERE id = $1`, [id]);
+  
+  if (res.rows.length === 0) return null;
+  const row = res.rows[0];
+  
   return {
-    id: row[0] as string,
-    timestamp: row[1] as string,
-    status: row[2] as 'success' | 'failure' | 'degraded',
-    final_output: row[3] as string,
-    spans: JSON.parse(row[4] as string)
+    id: row.id,
+    timestamp: row.timestamp.toISOString(),
+    status: row.status as 'success' | 'failure' | 'degraded',
+    final_output: row.final_output,
+    spans: JSON.parse(row.spans_json)
   };
 }
 
 export async function storeEvalCase(evalCase: EvalCase) {
   const db = await getDb();
-  const stmt = db.prepare(`INSERT INTO eval_dataset (id, original_input, failing_step, bad_output, human_corrected_output, failure_category, timestamp) VALUES (?, ?, ?, ?, ?, ?, ?)`);
-  stmt.run([
+  await db.query(`INSERT INTO eval_dataset (id, original_input, failing_step, bad_output, human_corrected_output, failure_category, timestamp) VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+  [
     evalCase.id,
     evalCase.original_input,
     evalCase.failing_step,
     evalCase.bad_output,
     evalCase.human_corrected_output,
     evalCase.failure_category,
-    evalCase.timestamp
+    new Date(evalCase.timestamp).toISOString()
   ]);
-  stmt.free();
-  await saveDb();
 }
 

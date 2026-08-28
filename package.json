@@ -3,21 +3,29 @@
   "version": "1.0.0",
   "main": "src/index.ts",
   "scripts": {
-    "start": "ts-node src/index.ts",
+    "start": "node --require ./dist/tracing/otel.js dist/index.js",
+    "dev": "ts-node --require ./src/tracing/otel.ts src/index.ts",
+    "build": "tsc",
     "test": "jest"
   },
   "dependencies": {
+    "@opentelemetry/api": "^1.9.1",
+    "@opentelemetry/auto-instrumentations-node": "^0.79.0",
+    "@opentelemetry/exporter-trace-otlp-http": "^0.221.0",
+    "@opentelemetry/resources": "^2.10.0",
+    "@opentelemetry/sdk-node": "^0.221.0",
+    "@opentelemetry/semantic-conventions": "^1.43.0",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "openai": "^7.5.0",
-    "sql.js": "^1.14.2",
+    "pg": "^8.23.0",
     "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@types/express": "^5.0.6",
     "@types/jest": "^30.0.0",
     "@types/node": "^26.2.0",
-    "@types/sql.js": "^1.4.11",
+    "@types/pg": "^8.23.1",
     "@types/uuid": "^10.0.0",
     "jest": "^30.4.2",
     "ts-jest": "^29.4.12",
