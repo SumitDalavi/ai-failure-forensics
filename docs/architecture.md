@@ -36,3 +36,8 @@ flowchart TD
 |---|---|---|
 | SQLite | **Real** | Embedded in-memory DB for prototype. |
 | OpenAI API | **Mocked** | Can be toggled to real via `.env`, but test suites use static stubs. |
+
+
+## Component Breakdown
+- **Core Technology**: TypeScript, LangChain.js, OpenTelemetry, SQLite
+- **Design Paradigm**: Emphasizes high availability, fault tolerance, and security.
