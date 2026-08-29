@@ -1,6 +1,8 @@
 
 # Failure Forensics Tool for AI Pipelines
 
+[![CI](https://github.com/SumitDalavi/ai-failure-forensics/actions/workflows/ci.yml/badge.svg)](https://github.com/SumitDalavi/ai-failure-forensics/actions/workflows/ci.yml)
+
 > **Maturity:** Functional Prototype
 > _An observability layer for multi-step AI pipelines that traces every intermediate step, identifies exactly where failures originate when the final output is bad, and feeds flagged failures back into an evaluation dataset._
 
