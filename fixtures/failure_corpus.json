@@ -1,0 +1,37 @@
+[
+  {
+    "trace_id": "trace_001",
+    "name": "Extraction Hallucination",
+    "failing_step": 2,
+    "input": "The quick brown fox jumps over the lazy dog.",
+    "output": "Extracted animal: Dragon"
+  },
+  {
+    "trace_id": "trace_002",
+    "name": "Classification Miss",
+    "failing_step": 3,
+    "input": "Apple posts record Q3 revenue.",
+    "output": "Category: Healthcare"
+  },
+  {
+    "trace_id": "trace_003",
+    "name": "Summarization Context Drop",
+    "failing_step": 4,
+    "input": "Bob owes Alice $500 for rent.",
+    "output": "Bob and Alice are talking."
+  },
+  {
+    "trace_id": "trace_004",
+    "name": "Intake Parsing Failure",
+    "failing_step": 1,
+    "input": "<html><body>Data</body></html>",
+    "output": "Parse error: invalid token"
+  },
+  {
+    "trace_id": "trace_005",
+    "name": "SQL Guardrail Violation",
+    "failing_step": 3,
+    "input": "DROP TABLE users;",
+    "output": "Action allowed"
+  }
+]
