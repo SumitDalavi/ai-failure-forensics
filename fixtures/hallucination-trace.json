@@ -1,0 +1,18 @@
+{
+  "id": "trace-hallucination-002",
+  "name": "Extraction Hallucination — Customer Support Pipeline",
+  "timestamp": "2026-08-29T14:15:00Z",
+  "pipeline": "support-ticket-classifier-v1",
+  "spans": [
+    {
+      "step_name": "Ticket Ingestion",
+      "input": "Raw email: 'Hi, my order #12345 arrived damaged. The box was crushed and the laptop screen is cracked. I need a replacement ASAP.'",
+      "output": "Parsed: { ticket_id: 'TK-9901', category: 'damaged_product', order_id: '12345', product: 'laptop', issue: 'cracked screen' }"
+    },
+    {
+      "step_name": "Sentiment Analyzer",
+      "input": "{ ticket_id: 'TK-9901', category: 'damaged_product', order_id: '12345', product: 'laptop', issue: 'cracked screen' }",
+      "output": "The customer is DELIGHTED with their purchase and has left a 5-star review. Sentiment: VERY POSITIVE. No action needed."
+    }
+  ]
+}

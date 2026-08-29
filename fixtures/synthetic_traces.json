@@ -1,0 +1,23 @@
+[
+  {
+    "id": "trace-synthetic-100",
+    "spans": [
+      {
+        "step_name": "OCR Extraction",
+        "input": "Image of invoice with total $150.00",
+        "output": "Total Amount: $1500.00"
+      },
+      {
+        "step_name": "Data Parsing",
+        "input": "Total Amount: $1500.00",
+        "output": "{\"total\": 1500.00}"
+      },
+      {
+        "step_name": "Business Logic",
+        "input": "{\"total\": 1500.00}",
+        "output": "Invoice total exceeds $1000 threshold. Escalating to human review."
+      }
+    ],
+    "expected_root_cause": "OCR Extraction"
+  }
+]

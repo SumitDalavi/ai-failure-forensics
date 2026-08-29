@@ -1,5 +1,3 @@
-> **NOTE:** This repository is an archival lab or partial prototype. It is not actively maintained and should not be used as a reference for production-grade deployments or performance benchmarks.
-
 
 # Failure Forensics Tool for AI Pipelines
 
@@ -49,9 +47,15 @@ Navigate to `http://localhost:3000` in your browser.
 - Click **Flag as Bad Output** to run the LLM backwards-analyzer. It will identify the broken step, categorize the failure, and save it to the SQLite `eval_dataset` table for future testing!
 
 ## 🧪 Tests
-
+Run the unit and integration tests (20+ tests covering edge cases for the LLM-as-a-judge):
 ```bash
 npm test
+```
+
+## 💻 CLI Demo Mode
+You can run a synthetic failure and root cause analysis trace directly from the command line without starting the server:
+```bash
+npx ts-node src/index.ts --cli
 ```
 The test suite validates the tracing `instrument()` wrapper to ensure spans correctly capture input, output, tokens, and latency across nested asynchronous calls.
 

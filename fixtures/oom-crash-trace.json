@@ -1,0 +1,28 @@
+{
+  "id": "trace-oom-crash-001",
+  "name": "OOM Crash — Document Extraction Pipeline",
+  "timestamp": "2026-08-29T10:30:00Z",
+  "pipeline": "document-extraction-v2",
+  "spans": [
+    {
+      "step_name": "PDF Loader",
+      "input": "contract_2026.pdf (2.4MB)",
+      "output": "Raw text extracted: 'This Agreement entered into on the 15th day of January 2026 between Party A and Party B...'"
+    },
+    {
+      "step_name": "Section Classifier",
+      "input": "This Agreement entered into on the 15th day of January 2026 between Party A and Party B...",
+      "output": "sections: { header: 'Agreement', parties: ['Party A', 'Party B'], effective_date: '2026-01-15' }"
+    },
+    {
+      "step_name": "Clause Extractor",
+      "input": "sections: { header: 'Agreement', parties: ['Party A', 'Party B'], effective_date: '2026-01-15' }",
+      "output": "clauses: [{ id: 1, text: 'Party A will pay $5,000 USD monthly', type: 'PAYMENT' }, { id: 2, text: 'Termination with 30 days notice', type: 'TERMINATION' }]"
+    },
+    {
+      "step_name": "Risk Scorer",
+      "input": "clauses: [{ id: 1, text: 'Party A will pay $5,000 USD monthly', type: 'PAYMENT' }, ...]",
+      "output": "The document appears to be a personal travel blog post about a road trip through Colorado. Risk score: LOW. No legal clauses detected."
+    }
+  ]
+}

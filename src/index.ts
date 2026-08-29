@@ -118,5 +118,24 @@ app.get('/', (_req, res) => {
   `);
 });
 
-app.listen(PORT, () => console.log(`Forensics Dashboard listening on port ${PORT}`));
-
+if (process.argv.includes('--cli')) {
+  console.log('--- CLI Demo Mode ---');
+  getDb().then(async () => {
+    console.log('Running synthetic bad document through pipeline...');
+    const traceId = startTrace();
+    try {
+      const finalResult = await processDocument('BAD_INVOICE: No dates specified.');
+      await finishTrace(finalResult, 'success');
+    } catch (err) {
+      await finishTrace('', 'failure');
+      console.log('Pipeline failed as expected.');
+    }
+    
+    console.log(`Analyzing trace: ${traceId} backwards...`);
+    const analysis = await analyzeTrace(traceId);
+    console.log('Root Cause Analysis:', JSON.stringify(analysis, null, 2));
+    process.exit(0);
+  });
+} else {
+  app.listen(PORT, () => console.log(`Forensics Dashboard listening on port ${PORT}`));
+}
