@@ -2,6 +2,10 @@
 # Failure Forensics Tool for AI Pipelines
 
 [![Release](https://img.shields.io/github/v/release/SumitDalavi/ai-failure-forensics?color=blue&logo=github)](https://github.com/SumitDalavi/ai-failure-forensics/releases)
+[![Release Workflow](https://github.com/SumitDalavi/ai-failure-forensics/actions/workflows/release.yml/badge.svg)](https://github.com/SumitDalavi/ai-failure-forensics/actions/workflows/release.yml)
+[![SBOM](https://img.shields.io/badge/SBOM-SPDX%20JSON-blueviolet?logo=spdx)](https://github.com/SumitDalavi/ai-failure-forensics/releases)
+
+[![Release](https://img.shields.io/github/v/release/SumitDalavi/ai-failure-forensics?color=blue&logo=github)](https://github.com/SumitDalavi/ai-failure-forensics/releases)
 [![SBOM](https://img.shields.io/badge/SBOM-SPDX%20JSON-blueviolet?logo=spdx)](https://github.com/SumitDalavi/ai-failure-forensics/releases)
 
 [![CI](https://github.com/SumitDalavi/ai-failure-forensics/actions/workflows/ci.yml/badge.svg)](https://github.com/SumitDalavi/ai-failure-forensics/actions/workflows/ci.yml)
@@ -85,7 +89,7 @@ The test suite validates the tracing `instrument()` wrapper to ensure spans corr
 - [Decisions](docs/decisions.md) — ADRs for tracing architecture
 - [Changelog](docs/changelog.md) — Change history
 
-## Release & Verification
+## Release & Security Verification
 
 The project includes an automated DevSecOps release pipeline (`.github/workflows/release.yml`) triggered on semantic version tags (`v*.*.*`).
 
@@ -105,3 +109,10 @@ gh release view v0.1.0 --repo SumitDalavi/ai-failure-forensics
 gh release download v0.1.0 --repo SumitDalavi/ai-failure-forensics --pattern "sbom.spdx.json"
 cat sbom.spdx.json | jq .
 ```
+
+## Documentation
+
+- [Architecture](docs/ARCHITECTURE.md)
+- [Runbook](docs/runbook.md)
+- [Decisions](docs/decisions.md)
+- [Changelog](docs/changelog.md)
