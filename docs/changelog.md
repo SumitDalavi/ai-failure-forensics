@@ -1,5 +1,14 @@
 # Changelog
 
+## [v0.1.0] — 2026-10-18
+### Added
+- Automated DevSecOps release pipeline triggering on `v*.*.*` git tags.
+- Container image build targeting GitHub Container Registry (`ghcr.io`).
+- Trivy vulnerability scanning step with vulnerability reporting.
+- Anchore Syft SPDX-JSON SBOM artifact generation.
+- Automated GitHub Release publication with attached `sbom.spdx.json`.
+
+
 ## [Unreleased] - 2026-08-30
 
 ### Added/Fixed (Phase 6 Functional Upgrades)
