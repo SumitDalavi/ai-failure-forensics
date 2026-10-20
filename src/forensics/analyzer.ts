@@ -1,14 +1,6 @@
-import OpenAI from 'openai';
 import { getTrace, storeEvalCase } from '../tracing/db';
 import { v4 as uuidv4 } from 'uuid';
-
-let _openai: OpenAI | null = null;
-function getOpenAI(): OpenAI {
-  if (!_openai) {
-    _openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-  }
-  return _openai;
-}
+import { aiProvider } from '../shared/ai-provider-factory';
 
 const EVAL_PROMPT = `You are a failure forensics expert analyzing a pipeline step.
 You will be given the Input to the step, and the Output produced by the step.
@@ -36,17 +28,17 @@ export async function analyzeTrace(traceId: string) {
     // LLM-as-a-judge scores the step
     const userMessage = `Step Name: ${span.step_name}\nInput:\n${span.input}\n\nOutput:\n${span.output}`;
     
-    const response = await getOpenAI().chat.completions.create({
-      model: 'gpt-4o-mini',
+    const result = await aiProvider.complete({
       messages: [
         { role: 'system', content: EVAL_PROMPT },
         { role: 'user', content: userMessage }
       ],
-      response_format: { type: 'json_object' },
-      temperature: 0.1
+      jsonMode: true,
+      temperature: 0.1,
+      mockResponseHint: 'failure-forensics-eval',
     });
 
-    const parsed = JSON.parse(response.choices[0].message.content || '{}');
+    const parsed = JSON.parse(result.content || '{}');
     
     // If score <= 2, we found the root cause
     if (parsed.score <= 2) {
