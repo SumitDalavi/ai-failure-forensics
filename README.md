@@ -1,21 +1,16 @@
 
 # Failure Forensics Tool for AI Pipelines
 
-[![Release](https://img.shields.io/github/v/release/SumitDalavi/ai-failure-forensics?color=blue&logo=github)](https://github.com/SumitDalavi/ai-failure-forensics/releases)
+[![CI Pipeline](https://github.com/SumitDalavi/ai-failure-forensics/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/SumitDalavi/ai-failure-forensics/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/SumitDalavi/ai-failure-forensics?color=0969da&label=release&logo=github)](https://github.com/SumitDalavi/ai-failure-forensics/releases)
 [![Release Workflow](https://github.com/SumitDalavi/ai-failure-forensics/actions/workflows/release.yml/badge.svg)](https://github.com/SumitDalavi/ai-failure-forensics/actions/workflows/release.yml)
-[![SBOM](https://img.shields.io/badge/SBOM-SPDX%20JSON-blueviolet?logo=spdx)](https://github.com/SumitDalavi/ai-failure-forensics/releases)
-
-[![Release](https://img.shields.io/github/v/release/SumitDalavi/ai-failure-forensics?color=blue&logo=github)](https://github.com/SumitDalavi/ai-failure-forensics/releases)
-[![SBOM](https://img.shields.io/badge/SBOM-SPDX%20JSON-blueviolet?logo=spdx)](https://github.com/SumitDalavi/ai-failure-forensics/releases)
-
-[![CI](https://github.com/SumitDalavi/ai-failure-forensics/actions/workflows/ci.yml/badge.svg)](https://github.com/SumitDalavi/ai-failure-forensics/actions/workflows/ci.yml)
+[![GHCR Container](https://img.shields.io/badge/ghcr.io-v0.2.0-blue?logo=docker&logoColor=white)](https://github.com/SumitDalavi/ai-failure-forensics/pkgs/container/ai-failure-forensics)
+[![Node.js](https://img.shields.io/badge/Node.js-20+-339933?logo=nodedotjs&logoColor=white)](https://nodejs.org)
+[![SBOM](https://img.shields.io/badge/SBOM-SPDX%202.3-blueviolet?logo=spdx)](https://github.com/SumitDalavi/ai-failure-forensics/releases/tag/v0.2.0)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
 > **Maturity:** Functional Prototype
 > _An observability layer for multi-step AI pipelines that traces every intermediate step, identifies exactly where failures originate when the final output is bad, and feeds flagged failures back into an evaluation dataset._
-
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue?logo=typescript)](https://www.typescriptlang.org/)
-[![Node.js](https://img.shields.io/badge/Node.js-20-green?logo=nodedotjs)](https://nodejs.org/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 
 ---
 
@@ -72,7 +67,6 @@ The test suite validates the tracing `instrument()` wrapper to ensure spans corr
 
 **Sumit Dalavi** — Senior DevSecOps / Platform Engineer  
 [GitHub](https://github.com/SumitDalavi) · [LinkedIn](https://in.linkedin.com/in/sumit-dalavi-762838129)
-
 
 ## Mock Boundaries (Honest Scope)
 
